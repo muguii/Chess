@@ -1,4 +1,5 @@
 ﻿using boardgame;
+using chess.chessPieces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace chess
         public ChessMatch()
         {
             Board = new Board(8, 8);
+            InitialSetup();
         }
 
         public ChessPiece[,] MakeChessPieces()
@@ -26,6 +28,13 @@ namespace chess
                 }
             }
             return mat;
+        }
+
+        private void InitialSetup()
+        {
+            Board.PlacePiece(new Rook(Board, Color.White), new Position(2, 1));
+            Board.PlacePiece(new King(Board, Color.Black), new Position(7, 4));
+            Board.PlacePiece(new King(Board, Color.White), new Position(0, 4));
         }
 
     }
