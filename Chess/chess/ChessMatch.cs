@@ -33,8 +33,8 @@ namespace chess
         private void InitialSetup()
         {
             Board.PlacePiece(new Rook(Board, Color.White), new Position(2, 1));
-            Board.PlacePiece(new King(Board, Color.Black), new Position(7, 4));
-            Board.PlacePiece(new King(Board, Color.White), new Position(0, 4));
+            Board.PlacePiece(new King(Board, Color.Black), new Position(0, 4));
+            Board.PlacePiece(new King(Board, Color.White), new Position(7, 4));
         }
 
     }
