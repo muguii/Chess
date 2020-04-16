@@ -1,9 +1,7 @@
 ﻿using boardgame;
 using chess.chessPieces;
+using Chess.chess;
 using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace chess
 {
@@ -30,11 +28,16 @@ namespace chess
             return mat;
         }
 
+        private void PlaceNewPiece(char column, int row, ChessPiece piece)
+        {
+            Board.PlacePiece(piece, new ChessPosition(column, row).ToPosition());
+        }
+
         private void InitialSetup()
         {
-            Board.PlacePiece(new Rook(Board, Color.White), new Position(2, 1));
-            Board.PlacePiece(new King(Board, Color.Black), new Position(0, 4));
-            Board.PlacePiece(new King(Board, Color.White), new Position(7, 4));
+            PlaceNewPiece('b', 6, new Rook(Board, Color.White));
+            PlaceNewPiece('e', 8, new King(Board, Color.White));
+            PlaceNewPiece('e', 1, new King(Board, Color.Black));
         }
 
     }
