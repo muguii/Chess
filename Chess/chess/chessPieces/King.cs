@@ -10,6 +10,12 @@ namespace chess.chessPieces
         {
         }
 
+        public override bool[,] PossibleMoves()
+        {
+            bool[,] mat = new bool[Board.Rows, Board.Columns];
+            return mat;
+        }
+
         public override string ToString()
         {
             return "K";

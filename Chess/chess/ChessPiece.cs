@@ -2,7 +2,7 @@
 
 namespace chess
 {
-    class ChessPiece : Piece
+    abstract class ChessPiece : Piece
     {
 
         public Color Color { get; private set; }

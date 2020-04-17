@@ -55,6 +55,10 @@ namespace chess
             {
                 throw new ChessException("There is no piece in source position.\n");
             }
+            if (!Board.GetPiece(position).IsThereAnyPossibleMove())
+            {
+                throw new ChessException("There is no possible movements for this piece.\n");
+            }
         }
 
         private void InitialSetup()
