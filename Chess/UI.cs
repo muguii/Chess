@@ -5,6 +5,10 @@ namespace Chess
 {
     class UI
     {
+        //Console.ResetColor();
+	    //Console.BackgroundColor = ConsoleColor.Blue;
+	    //Console.ForegroundColor = ConsoleColor.Blue;
+
         public static void PrintBoard(ChessPiece[,] chessPieces)
         {
             for (int i = 0; i < chessPieces.GetLength(0); i++)
@@ -24,9 +28,20 @@ namespace Chess
             if (piece == null)
             {
                 Console.Write("- ");
-            } else
+            }
+            else
             {
-                Console.Write(piece + " ");
+                if (piece.Color == Color.White)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(piece + " ");
+                    Console.ResetColor();
+                } else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write(piece + " ");
+                    Console.ResetColor();
+                }
             }
         }
 
