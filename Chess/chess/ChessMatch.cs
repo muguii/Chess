@@ -70,6 +70,13 @@ namespace chess
             }
         }
 
+        public bool[,] PossibleMoves(ChessPosition sourceChessPosition)
+        {
+            Position sourcePosition = sourceChessPosition.ToPosition();
+            ValidateSourcePosition(sourcePosition);
+            return Board.GetPiece(sourcePosition).PossibleMoves();
+        }
+
         private void InitialSetup()
         {
             PlaceNewPiece('c', 1, new Rook(Board, Color.White));

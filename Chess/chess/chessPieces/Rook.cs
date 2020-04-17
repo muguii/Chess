@@ -28,6 +28,7 @@ namespace chess.chessPieces
                 mat[aux.Row, aux.Column] = true;
             }
 
+
             //Right
             aux.SetValues(Position.Row, Position.Column + 1);
             while (Board.PositionExists(aux) && !Board.ThereIsAPiece(aux))
@@ -40,6 +41,7 @@ namespace chess.chessPieces
                 mat[aux.Row, aux.Column] = true;
             }
 
+
             //Below
             aux.SetValues(Position.Row + 1, Position.Column);
             while (Board.PositionExists(aux) && !Board.ThereIsAPiece(aux))
@@ -51,6 +53,7 @@ namespace chess.chessPieces
             {
                 mat[aux.Row, aux.Column] = true;
             }
+
 
             //Left
             aux.SetValues(Position.Row, Position.Column - 1);

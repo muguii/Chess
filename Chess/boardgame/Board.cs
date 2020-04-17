@@ -65,9 +65,7 @@
             {
                 throw new BoardException("Position not exist on the board.\n");
             }  
-
-            return GetPiece(position) != null;
-           
+            return GetPiece(position) != null;           
         }
 
         public Piece RemovePiece(Position position)

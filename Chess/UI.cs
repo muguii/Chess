@@ -33,18 +33,37 @@ namespace Chess
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < chessPieces.GetLength(1); j++)
                 {
-                    PrintPiece(chessPieces[i, j]);
+                    PrintPiece(chessPieces[i, j], false);
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
         }
 
-        private static void PrintPiece(ChessPiece piece)
+        public static void PrintBoard(ChessPiece[,] chessPieces, bool[,] possibleMoves)
         {
+            for (int i = 0; i < chessPieces.GetLength(0); i++)
+            {
+                Console.Write(8 - i + " ");
+                for (int j = 0; j < chessPieces.GetLength(1); j++)
+                {
+                    PrintPiece(chessPieces[i, j], possibleMoves[i, j]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  a b c d e f g h");
+        }
+
+        private static void PrintPiece(ChessPiece piece, bool background)
+        {
+            if (background)
+            {
+                Console.BackgroundColor = ConsoleColor.Blue;               
+            }
             if (piece == null)
             {
                 Console.Write("- ");
+                Console.ResetColor();
             }
             else
             {
@@ -60,6 +79,7 @@ namespace Chess
                     Console.ResetColor();
                 }
             }
+            
         }
 
     }
