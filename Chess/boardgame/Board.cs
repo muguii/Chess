@@ -56,9 +56,7 @@
 
         public bool PositionExists(Position position)
         {
-
-            return PositionExists(position.Row, position.Column);
-               
+            return PositionExists(position.Row, position.Column);               
         }
 
         public bool ThereIsAPiece(Position position)

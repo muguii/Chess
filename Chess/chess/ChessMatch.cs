@@ -37,6 +37,7 @@ namespace chess
             Position sourcePosition = sourceChessPosition.ToPosition();
             Position targetPosition = targetChessPosition.ToPosition();
             ValidateSourcePosition(sourcePosition);
+            ValidateTargetPosition(sourcePosition, targetPosition);
             Piece capturedPiece = MakeMove(sourcePosition, targetPosition);     
             return (ChessPiece)capturedPiece;
         }
@@ -49,15 +50,23 @@ namespace chess
             return capturedPiece;
         }
 
-        private void ValidateSourcePosition(Position position)
+        private void ValidateSourcePosition(Position sourcePosition)
         {
-            if (!Board.ThereIsAPiece(position))
+            if (!Board.ThereIsAPiece(sourcePosition))
             {
                 throw new ChessException("There is no piece in source position.\n");
             }
-            if (!Board.GetPiece(position).IsThereAnyPossibleMove())
+            if (!Board.GetPiece(sourcePosition).IsThereAnyPossibleMove())
             {
                 throw new ChessException("There is no possible movements for this piece.\n");
+            }
+        }
+
+        private void ValidateTargetPosition(Position sourcePosition, Position targetPosition)
+        {        
+            if (!Board.GetPiece(sourcePosition).PossibleMove(targetPosition))
+            {
+                throw new ChessException("The chosen piece can not move to the target position.\n");
             }
         }
 
