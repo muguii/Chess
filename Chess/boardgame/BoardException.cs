@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.boardgame
+namespace boardgame
 {
     class BoardException : ApplicationException
     {

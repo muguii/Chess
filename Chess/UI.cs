@@ -9,6 +9,21 @@ namespace Chess
 	    //Console.BackgroundColor = ConsoleColor.Blue;
 	    //Console.ForegroundColor = ConsoleColor.Blue;
 
+        public static ChessPosition ReadChessPosition()
+        {
+            try
+            {
+                string aux = Console.ReadLine();
+                char column = char.Parse(aux.Substring(0, 1));
+                int row = int.Parse(aux.Substring(1));
+                return new ChessPosition(column, row);
+            } catch (ArgumentException e)
+            {
+                throw new ArgumentException("Error reading the Chess Position.  Valid values are a1 to h8.");
+            }
+
+        }
+
         public static void PrintBoard(ChessPiece[,] chessPieces)
         {
             for (int i = 0; i < chessPieces.GetLength(0); i++)

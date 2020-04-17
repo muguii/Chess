@@ -1,6 +1,5 @@
 ﻿using boardgame;
 using chess.chessPieces;
-using Chess.chess;
 using System;
 
 namespace chess
@@ -31,6 +30,31 @@ namespace chess
         private void PlaceNewPiece(char column, int row, ChessPiece piece)
         {
             Board.PlacePiece(piece, new ChessPosition(column, row).ToPosition());
+        }
+
+        public ChessPiece PerformChessMove(ChessPosition sourceChessPosition, ChessPosition targetChessPosition)
+        {
+            Position sourcePosition = sourceChessPosition.ToPosition();
+            Position targetPosition = targetChessPosition.ToPosition();
+            ValidateSourcePosition(sourcePosition);
+            Piece capturedPiece = MakeMove(sourcePosition, targetPosition);     
+            return (ChessPiece)capturedPiece;
+        }
+
+        private Piece MakeMove(Position source, Position target)
+        {
+            Piece sourcePiece = Board.RemovePiece(source);
+            Piece capturedPiece = Board.RemovePiece(target);
+            Board.PlacePiece(sourcePiece, target);
+            return capturedPiece;
+        }
+
+        private void ValidateSourcePosition(Position position)
+        {
+            if (!Board.ThereIsAPiece(position))
+            {
+                throw new ChessException("There is no piece in source position.\n");
+            }
         }
 
         private void InitialSetup()

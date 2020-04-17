@@ -1,6 +1,6 @@
 ﻿using boardgame;
 
-namespace Chess.chess
+namespace chess
 {
     class ChessPosition
     {

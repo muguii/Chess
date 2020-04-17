@@ -1,6 +1,4 @@
-﻿using Chess.boardgame;
-
-namespace boardgame
+﻿namespace boardgame
 {
     class Board
     {
@@ -72,6 +70,23 @@ namespace boardgame
 
             return GetPiece(position) != null;
            
+        }
+
+        public Piece RemovePiece(Position position)
+        {
+            if (!PositionExists(position))
+            {
+                throw new BoardException("Position not exist on the board.\n");
+            }
+            if (GetPiece(position) == null)
+            {
+                return null;
+            }
+
+            Piece removedPiece = GetPiece(position);
+            removedPiece.Position = null;
+            Pieces[position.Row, position.Column] = null;
+            return removedPiece;
         }
     }
 }

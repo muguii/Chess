@@ -1,8 +1,8 @@
-﻿using System;
+﻿using boardgame;
 
-namespace Chess.chess
+namespace chess
 {
-    class ChessException : ApplicationException
+    class ChessException : BoardException
     {
         public ChessException(string msg) : base(msg)
         {
