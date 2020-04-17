@@ -9,6 +9,8 @@ namespace Chess
 	    //Console.BackgroundColor = ConsoleColor.Blue;
 	    //Console.ForegroundColor = ConsoleColor.Blue;
 
+        
+
         public static ChessPosition ReadChessPosition()
         {
             try
@@ -17,9 +19,9 @@ namespace Chess
                 char column = char.Parse(aux.Substring(0, 1));
                 int row = int.Parse(aux.Substring(1));
                 return new ChessPosition(column, row);
-            } catch (ArgumentException e)
+            } catch (ApplicationException e)
             {
-                throw new ArgumentException("Error reading the Chess Position.  Valid values are a1 to h8.");
+                throw new ArgumentException("Error reading the Chess Position. Valid values are a1 to h8.");
             }
 
         }
