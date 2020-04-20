@@ -7,10 +7,14 @@ namespace chess
     class ChessMatch
     {
         public Board Board { get; private set; }
+        public int Turn { get; private set; }
+        public Color CurrentPlayer { get; private set; }
 
         public ChessMatch()
         {
             Board = new Board(8, 8);
+            Turn = 1;
+            CurrentPlayer = Color.White;
             InitialSetup();
         }
 
@@ -25,12 +29,7 @@ namespace chess
                 }
             }
             return mat;
-        }
-
-        private void PlaceNewPiece(char column, int row, ChessPiece piece)
-        {
-            Board.PlacePiece(piece, new ChessPosition(column, row).ToPosition());
-        }
+        }       
 
         public ChessPiece PerformChessMove(ChessPosition sourceChessPosition, ChessPosition targetChessPosition)
         {
@@ -38,7 +37,8 @@ namespace chess
             Position targetPosition = targetChessPosition.ToPosition();
             ValidateSourcePosition(sourcePosition);
             ValidateTargetPosition(sourcePosition, targetPosition);
-            Piece capturedPiece = MakeMove(sourcePosition, targetPosition);     
+            Piece capturedPiece = MakeMove(sourcePosition, targetPosition);
+            NextTurn();
             return (ChessPiece)capturedPiece;
         }
 
@@ -56,6 +56,10 @@ namespace chess
             {
                 throw new ChessException("There is no piece in source position.\n");
             }
+            if (CurrentPlayer != ((ChessPiece)Board.GetPiece(sourcePosition)).Color)
+            {
+                throw new ChessException("The piece chosen is not yours.\n");
+            }
             if (!Board.GetPiece(sourcePosition).IsThereAnyPossibleMove())
             {
                 throw new ChessException("There is no possible movements for this piece.\n");
@@ -70,11 +74,22 @@ namespace chess
             }
         }
 
+        private void NextTurn()
+        {
+            Turn++;
+            CurrentPlayer = (CurrentPlayer == Color.White ? Color.Black : Color.White);
+        }
+
         public bool[,] PossibleMoves(ChessPosition sourceChessPosition)
         {
             Position sourcePosition = sourceChessPosition.ToPosition();
             ValidateSourcePosition(sourcePosition);
             return Board.GetPiece(sourcePosition).PossibleMoves();
+        }
+
+        private void PlaceNewPiece(char column, int row, ChessPiece piece)
+        {
+            Board.PlacePiece(piece, new ChessPosition(column, row).ToPosition());
         }
 
         private void InitialSetup()

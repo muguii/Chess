@@ -15,7 +15,7 @@ namespace Chess
                 try
                 {
                     Console.Clear();
-                    UI.PrintBoard(chessMatch.MakeChessPieces());
+                    UI.PrintMatch(chessMatch);
                     Console.Write("\nSource: ");
                     ChessPosition source = UI.ReadChessPosition();
                     bool[,] possibleMoves = chessMatch.PossibleMoves(source);

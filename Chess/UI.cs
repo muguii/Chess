@@ -26,6 +26,13 @@ namespace Chess
 
         }
 
+        public static void PrintMatch(ChessMatch chessMatch)
+        {
+            PrintBoard(chessMatch.MakeChessPieces());
+            Console.WriteLine("\nTurn: " + chessMatch.Turn);
+            Console.WriteLine("Waiting Player: " + chessMatch.CurrentPlayer);
+        }
+
         public static void PrintBoard(ChessPiece[,] chessPieces)
         {
             for (int i = 0; i < chessPieces.GetLength(0); i++)
