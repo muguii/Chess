@@ -32,11 +32,21 @@ namespace Chess
             PrintBoard(chessMatch.MakeChessPieces());
             PrintCapturedPieces(captured);
             Console.WriteLine("\nTurn: " + chessMatch.Turn);
-            Console.WriteLine("Waiting Player: " + chessMatch.CurrentPlayer);
-            if (chessMatch.Check)
+            if (!chessMatch.CheckMate)
             {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine("Waiting Player: " + chessMatch.CurrentPlayer);
+                if (chessMatch.Check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
+            } else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + chessMatch.CurrentPlayer);
             }
+            
+
+            
         }
 
         public static void PrintBoard(ChessPiece[,] chessPieces)

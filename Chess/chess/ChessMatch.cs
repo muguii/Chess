@@ -13,6 +13,7 @@ namespace chess
         public List<Piece> PiecesOnTheBoard { get; private set; }
         public List<Piece> CapturedPieces { get; private set; }
         public bool Check { get; private set; }
+        public bool CheckMate { get; private set; }
 
         public ChessMatch()
         {
@@ -22,6 +23,7 @@ namespace chess
             PiecesOnTheBoard = new List<Piece>();
             CapturedPieces = new List<Piece>();
             Check = false;
+            CheckMate = false;
             InitialSetup();
         }
 
@@ -52,9 +54,14 @@ namespace chess
                 throw new ChessException("You cant put yourself in check.\n");
             }
 
-            Check = ((TestCheck(OpponentColor(CurrentPlayer))) ? true : false);          
+            Check = ((TestCheck(OpponentColor(CurrentPlayer))) ? true : false);
 
-            NextTurn();
+            if (TestCheckMate(OpponentColor(CurrentPlayer))) {
+                CheckMate = true;
+            } else {
+                NextTurn();
+            }
+
             return (ChessPiece)capturedPiece;
         }
 
@@ -143,7 +150,7 @@ namespace chess
 
         private bool TestCheck(Color color)
         {
-            Position KingPosition = GetKing(color).Position; //Diferente
+            Position KingPosition = GetKing(color).GetChessPosition().ToPosition(); // GetKing(color).Position; -> Não seria mais pratico?
             List<Piece> opponentPieces = PiecesOnTheBoard.FindAll(x => ((ChessPiece)x).Color == OpponentColor(color));
             foreach (Piece obj in opponentPieces)
             {
@@ -156,6 +163,39 @@ namespace chess
             return false;
         }
 
+        private bool TestCheckMate(Color color)
+        {
+            if (!TestCheck(color))
+            {
+                return false;
+            }
+
+            List<Piece> pieces = PiecesOnTheBoard.FindAll(x => ((ChessPiece)x).Color == color);
+            foreach (Piece obj in pieces)
+            {
+                bool[,] mat = obj.PossibleMoves();
+                for (int i = 0; i < mat.GetLength(0); i++)
+                {
+                    for (int j = 0; j < mat.GetLength(1); j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position source = ((ChessPiece)obj).GetChessPosition().ToPosition();
+                            Position target = new Position(i, j);
+                            Piece capturedPiece = MakeMove(source, target);
+                            bool testCheck = TestCheck(color);
+                            UndoMove(source, target, capturedPiece);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }               
+            }
+
+            return true;
+        }
 
         private void PlaceNewPiece(char column, int row, ChessPiece piece)
         {
@@ -165,19 +205,19 @@ namespace chess
 
         private void InitialSetup()
         {
-            PlaceNewPiece('c', 1, new Rook(Board, Color.White));
-            PlaceNewPiece('c', 2, new Rook(Board, Color.White));
-            PlaceNewPiece('d', 2, new Rook(Board, Color.White));
-            PlaceNewPiece('e', 2, new Rook(Board, Color.White));
+            PlaceNewPiece('h', 7, new Rook(Board, Color.White));
+            PlaceNewPiece('d', 1, new Rook(Board, Color.White));
+            PlaceNewPiece('e', 1, new King(Board, Color.White));
+/*            PlaceNewPiece('e', 2, new Rook(Board, Color.White));
             PlaceNewPiece('e', 1, new Rook(Board, Color.White));
-            PlaceNewPiece('d', 1, new King(Board, Color.White));
+            PlaceNewPiece('d', 1, new King(Board, Color.White));*/
 
-            PlaceNewPiece('c', 7, new Rook(Board, Color.Black));
-            PlaceNewPiece('c', 8, new Rook(Board, Color.Black));
-            PlaceNewPiece('d', 7, new Rook(Board, Color.Black));
+            PlaceNewPiece('b', 8, new Rook(Board, Color.Black));
+            PlaceNewPiece('a', 8, new King(Board, Color.Black));
+ /*           PlaceNewPiece('d', 7, new Rook(Board, Color.Black));
             PlaceNewPiece('e', 7, new Rook(Board, Color.Black));
             PlaceNewPiece('e', 8, new Rook(Board, Color.Black));
-            PlaceNewPiece('d', 8, new King(Board, Color.Black));
+            PlaceNewPiece('d', 8, new King(Board, Color.Black));*/
         }
 
     }

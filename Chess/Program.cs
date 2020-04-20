@@ -12,7 +12,7 @@ namespace Chess
             ChessMatch chessMatch = new ChessMatch();
             List<ChessPiece> capturedPieces = new List<ChessPiece>();
             //Console.Clear();
-            while (true)
+            while (!chessMatch.CheckMate)
             {
                 try
                 {
@@ -42,6 +42,8 @@ namespace Chess
                     Console.ReadLine();
                 }
             }
+            Console.Clear();
+            UI.PrintMatch(chessMatch, capturedPieces);
 
         }
     }
