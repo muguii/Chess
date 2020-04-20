@@ -33,6 +33,10 @@ namespace Chess
             PrintCapturedPieces(captured);
             Console.WriteLine("\nTurn: " + chessMatch.Turn);
             Console.WriteLine("Waiting Player: " + chessMatch.CurrentPlayer);
+            if (chessMatch.Check)
+            {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void PrintBoard(ChessPiece[,] chessPieces)

@@ -12,6 +12,11 @@ namespace chess
             Color = color;
         }
 
+        public ChessPosition GetChessPosition()
+        {
+            return ChessPosition.FromPosition(Position);
+        }
+
         protected internal bool IsThereOpponentePiece(Position position)
         {
             ChessPiece p = (ChessPiece)Board.GetPiece(position);

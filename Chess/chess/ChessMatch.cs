@@ -12,6 +12,7 @@ namespace chess
         public Color CurrentPlayer { get; private set; }
         public List<Piece> PiecesOnTheBoard { get; private set; }
         public List<Piece> CapturedPieces { get; private set; }
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
@@ -20,6 +21,7 @@ namespace chess
             CurrentPlayer = Color.White;
             PiecesOnTheBoard = new List<Piece>();
             CapturedPieces = new List<Piece>();
+            Check = false;
             InitialSetup();
         }
 
@@ -43,6 +45,15 @@ namespace chess
             ValidateSourcePosition(sourcePosition);
             ValidateTargetPosition(sourcePosition, targetPosition);
             Piece capturedPiece = MakeMove(sourcePosition, targetPosition);
+
+            if (TestCheck(CurrentPlayer))
+            {
+                UndoMove(sourcePosition, targetPosition, capturedPiece);
+                throw new ChessException("You cant put yourself in check.\n");
+            }
+
+            Check = ((TestCheck(OpponentColor(CurrentPlayer))) ? true : false);          
+
             NextTurn();
             return (ChessPiece)capturedPiece;
         }
@@ -60,6 +71,19 @@ namespace chess
             }
 
             return capturedPiece;
+        }
+
+        private void UndoMove(Position source, Position target, Piece capturedPiece)
+        {
+            Piece p = Board.RemovePiece(target);
+            Board.PlacePiece(p, source);
+
+            if (capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, target);
+                CapturedPieces.Remove(capturedPiece);
+                PiecesOnTheBoard.Add(capturedPiece);
+            }
         }
 
         private void ValidateSourcePosition(Position sourcePosition)
@@ -98,6 +122,40 @@ namespace chess
             ValidateSourcePosition(sourcePosition);
             return Board.GetPiece(sourcePosition).PossibleMoves();
         }
+
+        private Color OpponentColor(Color color)
+        {           
+            return (color == Color.White ? Color.Black : Color.White);
+        }
+
+        private ChessPiece GetKing(Color color)
+        {
+            List<Piece> auxList = PiecesOnTheBoard.FindAll(x => ((ChessPiece)x).Color == color);
+            foreach (Piece obj in auxList)
+            {
+                if (obj is King)
+                    {
+                    return (ChessPiece)obj;
+                    }
+            }
+            throw new ApplicationException("There is no " + color + " king on the board.\n");
+        }
+
+        private bool TestCheck(Color color)
+        {
+            Position KingPosition = GetKing(color).Position; //Diferente
+            List<Piece> opponentPieces = PiecesOnTheBoard.FindAll(x => ((ChessPiece)x).Color == OpponentColor(color));
+            foreach (Piece obj in opponentPieces)
+            {
+                bool[,] mat = obj.PossibleMoves();
+                if (mat[KingPosition.Row, KingPosition.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         private void PlaceNewPiece(char column, int row, ChessPiece piece)
         {
