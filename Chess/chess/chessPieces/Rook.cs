@@ -1,11 +1,9 @@
 ﻿using boardgame;
-using chess;
 
 namespace chess.chessPieces
 {
     class Rook : ChessPiece
     {
-
         public Rook(Board board, Color color) : base(board, color)
         {
         }
@@ -13,7 +11,6 @@ namespace chess.chessPieces
         public override bool[,] PossibleMoves()
         {
             bool[,] mat = new bool[Board.Rows, Board.Columns];
-
             Position aux = new Position(0, 0);
 
             //Above

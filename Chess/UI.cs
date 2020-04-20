@@ -9,9 +9,7 @@ namespace Chess
         //Console.ResetColor();
 	    //Console.BackgroundColor = ConsoleColor.Blue;
 	    //Console.ForegroundColor = ConsoleColor.Blue;
-
-        
-
+    
         public static ChessPosition ReadChessPosition()
         {
             try
@@ -43,10 +41,7 @@ namespace Chess
             {
                 Console.WriteLine("CHECKMATE!");
                 Console.WriteLine("Winner: " + chessMatch.CurrentPlayer);
-            }
-            
-
-            
+            }                     
         }
 
         public static void PrintBoard(ChessPiece[,] chessPieces)
@@ -101,8 +96,7 @@ namespace Chess
                     Console.Write(piece + " ");
                     Console.ResetColor();
                 }
-            }
-            
+            }           
         }
 
         private static void PrintCapturedPieces(List<ChessPiece> captured)
@@ -119,6 +113,5 @@ namespace Chess
             Console.Write("[" + string.Join<ChessPiece>(", ", blackCaptured.ToArray()) + "]\n");
             Console.ResetColor();
         }
-
     }
 }

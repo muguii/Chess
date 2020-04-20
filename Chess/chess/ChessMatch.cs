@@ -67,7 +67,8 @@ namespace chess
 
         private Piece MakeMove(Position source, Position target)
         {
-            Piece sourcePiece = Board.RemovePiece(source);
+            ChessPiece sourcePiece = (ChessPiece)Board.RemovePiece(source);
+            sourcePiece.IncreaseMoveCount();
             Piece capturedPiece = Board.RemovePiece(target);
             Board.PlacePiece(sourcePiece, target);
 
@@ -82,7 +83,8 @@ namespace chess
 
         private void UndoMove(Position source, Position target, Piece capturedPiece)
         {
-            Piece p = Board.RemovePiece(target);
+            ChessPiece p = (ChessPiece)Board.RemovePiece(target);
+            p.DecreaseMoveCount();
             Board.PlacePiece(p, source);
 
             if (capturedPiece != null)
@@ -205,20 +207,39 @@ namespace chess
 
         private void InitialSetup()
         {
-            PlaceNewPiece('h', 7, new Rook(Board, Color.White));
-            PlaceNewPiece('d', 1, new Rook(Board, Color.White));
+            PlaceNewPiece('a', 1, new Rook(Board, Color.White));
             PlaceNewPiece('e', 1, new King(Board, Color.White));
-/*            PlaceNewPiece('e', 2, new Rook(Board, Color.White));
-            PlaceNewPiece('e', 1, new Rook(Board, Color.White));
-            PlaceNewPiece('d', 1, new King(Board, Color.White));*/
+            PlaceNewPiece('h', 1, new Rook(Board, Color.White));
+            PlaceNewPiece('a', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('b', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('c', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('d', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('e', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('f', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('g', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('h', 2, new Pawn(Board, Color.White));
+            /*PlaceNewPiece('e', 2, new Pawn(Board, Color.White));
+            PlaceNewPiece('e', 1, new Pawn(Board, Color.White));
+            PlaceNewPiece('d', 1, new Pawn(Board, Color.White));
+            PlaceNewPiece('d', 1, new Pawn(Board, Color.White));
+            PlaceNewPiece('d', 1, new Pawn(Board, Color.White));*/
 
-            PlaceNewPiece('b', 8, new Rook(Board, Color.Black));
-            PlaceNewPiece('a', 8, new King(Board, Color.Black));
- /*           PlaceNewPiece('d', 7, new Rook(Board, Color.Black));
-            PlaceNewPiece('e', 7, new Rook(Board, Color.Black));
-            PlaceNewPiece('e', 8, new Rook(Board, Color.Black));
-            PlaceNewPiece('d', 8, new King(Board, Color.Black));*/
+            PlaceNewPiece('a', 8, new Rook(Board, Color.Black));
+            PlaceNewPiece('e', 8, new King(Board, Color.Black));
+            PlaceNewPiece('h', 8, new Rook(Board, Color.Black));
+            PlaceNewPiece('a', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('b', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('c', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('d', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('e', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('f', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('g', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('h', 7, new Rook(Board, Color.Black));
+            /*PlaceNewPiece('e', 7, new Pawn(Board, Color.Black));
+            PlaceNewPiece('e', 8, new Pawn(Board, Color.Black));
+            PlaceNewPiece('d', 8, new Pawn(Board, Color.Black));
+            PlaceNewPiece('d', 8, new Pawn(Board, Color.Black));
+            PlaceNewPiece('d', 8, new Pawn(Board, Color.Black));*/
         }
-
     }
 }

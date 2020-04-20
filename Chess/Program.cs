@@ -1,5 +1,4 @@
-﻿using boardgame;
-using chess;
+﻿using chess;
 using System;
 using System.Collections.Generic;
 
@@ -23,7 +22,6 @@ namespace Chess
                     bool[,] possibleMoves = chessMatch.PossibleMoves(source);
                     Console.Clear();
                     UI.PrintBoard(chessMatch.MakeChessPieces(), possibleMoves);
-
                     Console.Write("\nTarget: ");
                     ChessPosition target = UI.ReadChessPosition();
                    
@@ -44,7 +42,6 @@ namespace Chess
             }
             Console.Clear();
             UI.PrintMatch(chessMatch, capturedPieces);
-
         }
     }
 }
