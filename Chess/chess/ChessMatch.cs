@@ -15,6 +15,7 @@ namespace chess
         public bool Check { get; private set; }
         public bool CheckMate { get; private set; }
         public ChessPiece EnPassantVulnerable { get; private set; }
+        public ChessPiece Promoted { get; private set; }
 
         public ChessMatch()
         {
@@ -57,6 +58,17 @@ namespace chess
 
             ChessPiece movedPiece = (ChessPiece)Board.GetPiece(targetPosition);
 
+            //SpecialMove Promotion
+            Promoted = null;
+            if (movedPiece is Pawn)
+            {
+                if ((movedPiece.Color == Color.White && targetPosition.Row == 0) || (movedPiece.Color == Color.Black && targetPosition.Row == 7))
+                {
+                    Promoted = (ChessPiece)Board.GetPiece(targetPosition);
+                    Promoted = ReplacePromotedPiece("Q");
+                }
+            }
+
             Check = ((TestCheck(OpponentColor(CurrentPlayer))) ? true : false);
 
             if (TestCheckMate(OpponentColor(CurrentPlayer))) {
@@ -75,6 +87,45 @@ namespace chess
             }
 
             return (ChessPiece)capturedPiece;
+        }
+
+        public ChessPiece ReplacePromotedPiece(String type)
+        {
+            if (Promoted == null)
+            {
+                throw new ApplicationException("There is no piece to be promoted.\n");
+            }
+            if (!type.Equals("B") && !type.Equals("N") && !type.Equals("R") && !type.Equals("Q"))
+            {
+                throw new ArgumentException("Invalid type for promotion.\n");
+            }
+
+            Position promotedPosition = Promoted.GetChessPosition().ToPosition();
+            Piece promoted = Board.RemovePiece(promotedPosition);
+            PiecesOnTheBoard.Remove(promoted);
+
+            ChessPiece newPiece = NewPiece(type, Promoted.Color);
+            Board.PlacePiece(newPiece, promotedPosition);
+            PiecesOnTheBoard.Add(newPiece);
+
+            return newPiece;
+        }
+
+        private ChessPiece NewPiece(String type, Color color)
+        {
+            if (type.Equals("B"))
+            {
+                return new Bishop(Board, color);
+            } else if (type.Equals("N"))
+            {
+                return new Knight(Board, color);
+            } else if (type.Equals("Q"))
+            {
+                return new Queen(Board, color);
+            } else
+            {
+                return new Rook(Board, color);
+            }
         }
 
         private Piece MakeMove(Position source, Position target)
