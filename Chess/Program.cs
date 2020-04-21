@@ -10,7 +10,6 @@ namespace Chess
         {
             ChessMatch chessMatch = new ChessMatch();
             List<ChessPiece> capturedPieces = new List<ChessPiece>();
-            //Console.Clear();
             while (!chessMatch.CheckMate)
             {
                 try
@@ -34,7 +33,12 @@ namespace Chess
                     if (chessMatch.Promoted != null)
                     {
                         Console.Write("Enter piece for promotion (B/N/R/Q): ");
-                        string type = Console.ReadLine();
+                        string type = Console.ReadLine().ToUpper();
+                        while (!type.Equals("B") && !type.Equals("N") && !type.Equals("R") && !type.Equals("Q"))
+                        {
+                            Console.Write("Invalid value! Enter piece for promotion (B/N/R/Q): ");
+                            type = Console.ReadLine().ToUpper();
+                        }
                         chessMatch.ReplacePromotedPiece(type);
                     }
                 } catch (ChessException e)
@@ -42,6 +46,10 @@ namespace Chess
                     Console.WriteLine(e.Message);
                     Console.ReadLine();
                 } catch (ArgumentException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.ReadLine();
+                } catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                     Console.ReadLine();

@@ -10,10 +10,10 @@ namespace chess
         public Board Board { get; private set; }
         public int Turn { get; private set; }
         public Color CurrentPlayer { get; private set; }
-        public List<Piece> PiecesOnTheBoard { get; private set; }
-        public List<Piece> CapturedPieces { get; private set; }
         public bool Check { get; private set; }
         public bool CheckMate { get; private set; }
+        public List<Piece> PiecesOnTheBoard { get; private set; }
+        public List<Piece> CapturedPieces { get; private set; }
         public ChessPiece EnPassantVulnerable { get; private set; }
         public ChessPiece Promoted { get; private set; }
 
@@ -22,10 +22,12 @@ namespace chess
             Board = new Board(8, 8);
             Turn = 1;
             CurrentPlayer = Color.White;
-            PiecesOnTheBoard = new List<Piece>();
-            CapturedPieces = new List<Piece>();
             Check = false;
             CheckMate = false;
+            PiecesOnTheBoard = new List<Piece>();
+            CapturedPieces = new List<Piece>();
+            EnPassantVulnerable = null;
+            Promoted = null;
             InitialSetup();
         }
 
@@ -39,6 +41,7 @@ namespace chess
                     mat[i, j] = (ChessPiece)Board.GetPiece(i, j);
                 }
             }
+
             return mat;
         }       
 
@@ -97,7 +100,7 @@ namespace chess
             }
             if (!type.Equals("B") && !type.Equals("N") && !type.Equals("R") && !type.Equals("Q"))
             {
-                throw new ArgumentException("Invalid type for promotion.\n");
+                return Promoted;
             }
 
             Position promotedPosition = Promoted.GetChessPosition().ToPosition();

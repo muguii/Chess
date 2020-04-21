@@ -20,9 +20,8 @@ namespace Chess
                 return new ChessPosition(column, row);
             } catch (ApplicationException e)
             {
-                throw new ArgumentException("Error reading the ChessPosition. Valid values are a1 to h8.");
+                throw new ArgumentException("Error reading the ChessPosition. Valid values are a1 to h8.\n");
             }
-
         }
 
         public static void PrintMatch(ChessMatch chessMatch, List<ChessPiece> captured)
